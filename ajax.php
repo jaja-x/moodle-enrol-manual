@@ -92,6 +92,18 @@ switch ($action) {
             }
         }
 
+        $groups = [];
+        $groupids = optional_param_array('grouplist', [], PARAM_SEQUENCE);
+        $groupid = optional_param('groupid', 0, PARAM_INT);
+        if ($groupid) {
+            $groupids[] = $groupid;
+        }
+        if ($groupids) {
+            foreach ($groupids as $groupid) {
+                $groups[] = $DB->get_record('groups', array('id' => $groupid), '*', MUST_EXIST);
+            }
+        }
+
         $roleid = optional_param('roletoassign', null, PARAM_INT);
         $duration = optional_param('duration', 0, PARAM_INT);
         $startdate = optional_param('startdate', 0, PARAM_INT);
@@ -169,6 +181,11 @@ switch ($action) {
             foreach ($cohorts as $cohort) {
                 $totalenrolledusers = $plugin->enrol_cohort($instance, $cohort->id, $roleid, $timestart, $timeend, null, $recovergrades);
                 $outcome->count += $totalenrolledusers;
+            }
+            foreach ($users as $user) {
+                foreach ($groups as $group) {
+                    groups_add_member($group->id, $user->id);
+                }
             }
         } else {
             throw new enrol_ajax_exception('enrolnotpermitted');

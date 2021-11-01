@@ -27,6 +27,7 @@ $string['alterstatus'] = 'Alter status';
 $string['altertimeend'] = 'Alter end time';
 $string['altertimestart'] = 'Alter start time';
 $string['assignrole'] = 'Assign role';
+$string['assigngroup'] = 'Assign group';
 $string['assignroles'] = 'Assign roles';
 $string['browseusers'] = 'Browse users';
 $string['browsecohorts'] = 'Browse cohorts';
