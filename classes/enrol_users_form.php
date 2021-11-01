@@ -120,6 +120,15 @@ class enrol_manual_enrol_users_form extends moodleform {
         $mform->addElement('select', 'roletoassign', get_string('assignrole', 'enrol_manual'), $roles);
         $mform->setDefault('roletoassign', $instance->roleid);
 
+        // Get the groups that belong to the course.
+        $groups = $DB->get_records('groups', array('courseid' => $course->id), 'name ASC');
+        $groupslist = [];
+        $groupslist[0] = '';
+        foreach ($groups as $group) {
+            $groupslist[$group->id] = $group->name;
+        }
+        $mform->addElement('select', 'groupid', get_string('assigngroup', 'enrol_manual'), $groupslist);
+
         $mform->addAdvancedStatusElement('main');
 
         $mform->addElement('checkbox', 'recovergrades', get_string('recovergrades', 'enrol'));
